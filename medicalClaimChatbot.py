@@ -5,8 +5,6 @@ import openai
 import time
 
 # Set up OpenAI API using environment variable
-#openai.api_key = st.secrets["OPENAI_API_KEY"]
-
 with st.spinner("🔄 Mool AI agent Authentication In progress..."):
     openai.api_key = os.environ.get("OPENAI_API_KEY")
     if not openai.api_key:
@@ -79,8 +77,12 @@ else:
     if len(st.session_state.messages) == 0:
         st.session_state.messages.append({"role": "assistant", "content": "Hello! I am your medical claim assistant. How can I help you today?"})
 
+    # Initialize the user input in session state to an empty string
+    if "user_input_value" not in st.session_state:
+        st.session_state["user_input_value"] = ""
+
     # User input for chatbot interaction
-    user_input = st.text_input("What would you like to ask?", key="user_input")
+    user_input = st.text_input("What would you like to ask?", key="user_input", value=st.session_state["user_input_value"])
 
     if st.button("Submit"):
         # Check if user input is not empty
@@ -94,6 +96,12 @@ else:
             # Add user input and bot response to chat history
             st.session_state.messages.append({"role": "user", "content": user_input})
             st.session_state.messages.append({"role": "assistant", "content": response})
+
+            # Clear the input field by setting the session state value to an empty string
+            st.session_state["user_input_value"] = ""
+
+            # Force a rerun to update the display
+            st.rerun()
 
     # Display chat messages from history (newest at the top)
     for message in reversed(st.session_state.messages):
