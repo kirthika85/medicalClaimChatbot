@@ -42,14 +42,16 @@ else:
         prompt += f"\nAnswer the question: {user_input}"
         
         # Use OpenAI to generate a response
-        response = openai.Completion.create(
-            model="text-davinci-003",  # Use a model compatible with the latest API
-            prompt=prompt,
-            max_tokens=2048,
-            temperature=0.7
-        )
-        
-        return response.choices[0].text
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "assistant", "content": prompt}
+                ]
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            return f"Error generating response: {e}"
 
     # Streamlit app layout
     st.title("Claim-Related Chatbot")
