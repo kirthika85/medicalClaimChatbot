@@ -2,6 +2,7 @@ import streamlit as st
 import os
 import PyPDF2
 import openai
+import time
 
 # Set up OpenAI API using environment variable
 #openai.api_key = st.secrets["OPENAI_API_KEY"]
