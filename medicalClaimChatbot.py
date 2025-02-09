@@ -70,11 +70,15 @@ if "messages" not in st.session_state:
 
 # Add welcome message only once at the start
 if len(st.session_state.messages) == 0:
-    st.session_state.messages.append({"role": "assistant", "content": "Hello! I am your medical claim assistant. How can I help you today?"})
+    st.session_state.messages.insert(0, {"role": "assistant", "content": "Hello! I am your medical claim assistant. How can I help you today?"})
 
 # Initialize the user input in session state to an empty string
 if "user_input_value" not in st.session_state:
     st.session_state["user_input_value"] = ""
+
+# Display chat messages from history (newest at the top)
+for message in reversed(st.session_state.messages):
+    st.chat_message(message["role"]).markdown(message["content"])
 
 # User input for chatbot interaction
 user_input = st.text_input("What would you like to ask?", key="user_input", value=st.session_state["user_input_value"])
@@ -86,16 +90,12 @@ if st.button("Submit"):
         file_contents = read_files()
         response = generate_response(user_input, file_contents)
 
-        # Add user input and bot response to chat history
-        st.session_state.messages.append({"role": "user", "content": user_input})
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        # Add user input and bot response to the beginning of chat history
+        st.session_state.messages.insert(0, {"role": "user", "content": user_input})
+        st.session_state.messages.insert(0, {"role": "assistant", "content": response})
 
         # Clear the input field by setting the session state value to an empty string
         st.session_state["user_input_value"] = ""
-        
+
         # Re-run the script to update the display
         st.rerun()
-
-# Display chat messages from history (newest at the bottom, oldest at the top)
-for message in reversed(st.session_state.messages):
-    st.chat_message(message["role"]).markdown(message["content"])
