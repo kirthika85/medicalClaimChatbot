@@ -69,10 +69,6 @@ if len(st.session_state.messages) == 0:
 if "user_input_value" not in st.session_state:
     st.session_state["user_input_value"] = ""
 
-# Display chat messages from history (newest at the top)
-for message in reversed(st.session_state.messages):
-    st.chat_message(message["role"]).markdown(message["content"])
-
 # User input for chatbot interaction
 user_input = st.text_input("What would you like to ask?", key="user_input", value=st.session_state["user_input_value"])
 
@@ -84,11 +80,19 @@ if st.button("Submit"):
         response = generate_response(user_input, file_contents)
 
         # Add user input and bot response to the beginning of chat history
-        st.session_state.messages.insert(0, {"role": "user", "content": user_input})
         st.session_state.messages.insert(0, {"role": "assistant", "content": response})
+        st.session_state.messages.insert(0, {"role": "user", "content": user_input})
 
         # Clear the input field by setting the session state value to an empty string
         st.session_state["user_input_value"] = ""
         
         # Re-run the script to update the display
         st.rerun()
+
+# Display chat messages from history (newest at the top)
+st.write("Chat History:")
+for message in reversed(st.session_state.messages):
+    if message["role"] == "user":
+        st.write(f"**You:** {message['content']}")
+    else:
+        st.write(f"**Assistant:** {message['content']}")
