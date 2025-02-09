@@ -4,7 +4,7 @@ import PyPDF2
 import openai
 
 # Set up OpenAI API
-openai.api_key = "YOUR_OPENAI_API_KEY"  # Replace with your actual API key
+openai.api_key = os.getenv("OPEN_API_KEY")
 
 # Function to read files from the current directory
 def read_files():
