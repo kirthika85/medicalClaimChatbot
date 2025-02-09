@@ -72,10 +72,6 @@ if "messages" not in st.session_state:
 if len(st.session_state.messages) == 0:
     st.session_state.messages.append({"role": "assistant", "content": "Hello! I am your medical claim assistant. How can I help you today?"})
 
-# Display chat messages from history (newest at the bottom)
-for message in st.session_state.messages:
-    st.chat_message(message["role"]).markdown(message["content"])
-
 # Initialize the user input in session state to an empty string
 if "user_input_value" not in st.session_state:
     st.session_state["user_input_value"] = ""
@@ -93,9 +89,13 @@ if st.button("Submit"):
         # Add user input and bot response to chat history
         st.session_state.messages.append({"role": "user", "content": user_input})
         st.session_state.messages.append({"role": "assistant", "content": response})
-        
+
         # Clear the input field by setting the session state value to an empty string
         st.session_state["user_input_value"] = ""
-
-        # Force a rerun to update the display
+        
+        # Re-run the script to update the display
         st.rerun()
+
+# Display chat messages from history (newest at the bottom, oldest at the top)
+for message in st.session_state.messages:
+    st.chat_message(message["role"]).markdown(message["content"])
