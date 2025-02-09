@@ -37,7 +37,7 @@ else:
                     contents.append({"filename": filename, "content": text})
                     #st.write(f"Successfully read TXT file: {filename}")
                     #st.write(f"Content snippet: {text[:200]}...")
-        st.write(f"Total files read: {len(contents)}")
+        #st.write(f"Total files read: {len(contents)}")
         return contents
 
     # Function to generate a response using OpenAI
