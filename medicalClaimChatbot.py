@@ -51,7 +51,8 @@ else:
             response = openai.ChatCompletion.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "assistant", "content": prompt}
+                    {"role": "system", "content": "You are a medical claim assistant. Use the provided documents to answer questions accurately."},
+                    {"role": "user", "content": prompt}
                 ]
             )
             return response.choices[0].message.content
@@ -60,37 +61,32 @@ else:
 
     # Streamlit app layout
     st.title("Claim-Related Chatbot")
-    st.write("This chatbot answers claim-related questions based on the documents in the current directory.")
+    st.write("This chatbot answers claim-related questions")
 
     # Initialize session state for chat history
     if "messages" not in st.session_state:
         st.session_state.messages = []
-
-    # Read files from the current directory
-    file_contents = read_files()
-
-    # Display chat messages from history
-    for message in st.session_state.messages:
-        st.chat_message(message["role"]).markdown(message["content"])
-
-# Add welcome message
+    
+    # Add welcome message only once when the app starts
     if len(st.session_state.messages) == 0:
         st.session_state.messages.append({"role": "assistant", "content": "Hello! I am your medical claim assistant. How can I help you today?"})
+
+    # Display chat messages from history in the correct order (oldest at the top)
+    for message in st.session_state.messages:
+        st.chat_message(message["role"]).markdown(message["content"])
 
     # Initialize the user input in session state to an empty string
     if "user_input_value" not in st.session_state:
         st.session_state["user_input_value"] = ""
-
+    
     # User input for chatbot interaction
     user_input = st.text_input("What would you like to ask?", key="user_input", value=st.session_state["user_input_value"])
 
     if st.button("Submit"):
         # Check if user input is not empty
         if user_input:
-            # Read files from the current directory
-            file_contents = read_files()
-
             # Generate a response using OpenAI
+            file_contents = read_files()
             response = generate_response(user_input, file_contents)
 
             # Add user input and bot response to chat history
@@ -102,7 +98,3 @@ else:
 
             # Force a rerun to update the display
             st.rerun()
-
-    # Display chat messages from history (newest at the top)
-    for message in reversed(st.session_state.messages):
-        st.chat_message(message["role"]).markdown(message["content"])
