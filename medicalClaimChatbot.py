@@ -39,7 +39,7 @@ def generate_response(user_input, file_contents):
 
 # Streamlit app layout
 st.title("Claim-Related Chatbot")
-st.write("This chatbot answers claim-related questions based on the documents in the current directory.")
+st.write("This chatbot answers claim-related questions")
 
 # Initialize session state for chat history
 if "messages" not in st.session_state:
