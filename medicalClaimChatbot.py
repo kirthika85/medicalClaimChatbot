@@ -21,16 +21,23 @@ else:
     # Function to read files from the current directory
     def read_files():
         contents = []
+        st.write("Reading files from the current directory...")
         for filename in os.listdir():
             if filename.endswith('.pdf'):
+                st.write(f"Found file: {filename}")
                 with open(filename, 'rb') as file:
                     reader = PyPDF2.PdfReader(file)
                     pdf_text = '\n'.join([page.extract_text() for page in reader.pages])
                     contents.append({"filename": filename, "content": pdf_text})
+                    st.write(f"Successfully read PDF file: {filename}")
+                    st.write(f"Content snippet: {pdf_text[:200]}...")
             elif filename.endswith('.txt'):
                 with open(filename, 'r') as file:
                     text = file.read()
                     contents.append({"filename": filename, "content": text})
+                    st.write(f"Successfully read TXT file: {filename}")
+                    st.write(f"Content snippet: {text[:200]}...")
+        st.write(f"Total files read: {len(contents)}")
         return contents
 
     # Function to generate a response using OpenAI
