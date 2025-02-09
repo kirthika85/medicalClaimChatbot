@@ -45,7 +45,7 @@ else:
         # Prepare the prompt for OpenAI
         prompt = f"Based on the following documents:\n\n"
         for file in file_contents:
-            prompt += f"--- {file['filename']} ---\n{file['content'][:500]}\n\n"
+            prompt += f"--- {file['filename']} ---\n{file['content'][:2500]}\n\n"
         prompt += f"\nAnswer the question: {user_input}"
         
         # Use OpenAI to generate a response
