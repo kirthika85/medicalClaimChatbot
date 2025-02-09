@@ -20,23 +20,16 @@ if openai.api_key is None:
 # Function to read files from the current directory
 def read_files():
     contents = []
-    # st.write("Reading files from the current directory...")
     for filename in os.listdir():
         if filename.endswith('.pdf'):
-            # st.write(f"Found file: {filename}")
             with open(filename, 'rb') as file:
                 reader = PyPDF2.PdfReader(file)
                 pdf_text = '\n'.join([page.extract_text() for page in reader.pages])
                 contents.append({"filename": filename, "content": pdf_text})
-                # st.write(f"Successfully read PDF file: {filename}")
-                # st.write(f"Content snippet: {pdf_text[:200]}...")
         elif filename.endswith('.txt'):
             with open(filename, 'r') as file:
                 text = file.read()
                 contents.append({"filename": filename, "content": text})
-                # st.write(f"Successfully read TXT file: {filename}")
-                # st.write(f"Content snippet: {text[:200]}...")
-    # st.write(f"Total files read: {len(contents)}")
     return contents
 
 # Function to generate a response using OpenAI
@@ -70,7 +63,7 @@ if "messages" not in st.session_state:
 
 # Add welcome message only once at the start
 if len(st.session_state.messages) == 0:
-    st.session_state.messages.insert(0, {"role": "assistant", "content": "Hello! I am your medical claim assistant. How can I help you today?"})
+    st.session_state.messages.append({"role": "assistant", "content": "Hello! I am your medical claim assistant. How can I help you today?"})
 
 # Initialize the user input in session state to an empty string
 if "user_input_value" not in st.session_state:
@@ -96,6 +89,6 @@ if st.button("Submit"):
 
         # Clear the input field by setting the session state value to an empty string
         st.session_state["user_input_value"] = ""
-
+        
         # Re-run the script to update the display
         st.rerun()
