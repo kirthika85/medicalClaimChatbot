@@ -95,9 +95,6 @@ else:
             st.session_state.messages.append({"role": "user", "content": user_input})
             st.session_state.messages.append({"role": "assistant", "content": response})
 
-            # Clear the input field by updating its key
-            st.experimental_rerun()
-
     # Display chat messages from history (newest at the top)
     for message in reversed(st.session_state.messages):
         st.chat_message(message["role"]).markdown(message["content"])
