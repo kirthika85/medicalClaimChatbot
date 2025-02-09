@@ -4,7 +4,15 @@ import PyPDF2
 import openai
 
 # Set up OpenAI API using environment variable
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+#openai.api_key = st.secrets["OPENAI_API_KEY"]
+
+with st.spinner("🔄 Mool AI agent Authentication In progress..."):
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        st.error("❌ API_KEY not found in environment variables.")
+        st.stop()
+    time.sleep(5)
+st.success("✅ Mool AI agent Authentication Successful")
 
 if openai.api_key is None:
     st.error("OPEN_API_KEY environment variable is not set. Please set it before running the app.")
