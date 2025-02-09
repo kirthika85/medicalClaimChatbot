@@ -75,27 +75,28 @@ else:
     for message in st.session_state.messages:
         st.chat_message(message["role"]).markdown(message["content"])
 
-    # Add welcome message
+# Add welcome message
     if len(st.session_state.messages) == 0:
         st.session_state.messages.append({"role": "assistant", "content": "Hello! I am your medical claim assistant. How can I help you today?"})
 
     # User input for chatbot interaction
-    user_input = st.text_input("What would you like to ask?")
+    user_input = st.text_input("What would you like to ask?", key="user_input")
 
     if st.button("Submit"):
-        # Generate a response using OpenAI
-        response = generate_response(user_input, file_contents)
+        # Check if user input is not empty
+        if user_input:
+            # Read files from the current directory
+            file_contents = read_files()
 
-        # Add user input and bot response to chat history
-        st.session_state.messages.append({"role": "user", "content": user_input})
-        st.session_state.messages.append({"role": "assistant", "content": response})
+            # Generate a response using OpenAI
+            response = generate_response(user_input, file_contents)
 
-        # Display the new messages dynamically
-        st.chat_message("user").markdown(user_input)
-        st.chat_message("assistant").markdown(response)
+            # Add user input and bot response to chat history
+            st.session_state.messages.append({"role": "user", "content": user_input})
+            st.session_state.messages.append({"role": "assistant", "content": response})
 
-    # Read files from the current directory
-    file_contents = read_files()
+            # Clear the input field by updating its key
+            st.experimental_rerun()
 
     # Display chat messages from history (newest at the top)
     for message in reversed(st.session_state.messages):
