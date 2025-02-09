@@ -4,7 +4,7 @@ import PyPDF2
 import openai
 
 # Set up OpenAI API using environment variable
-openai.api_key = os.getenv("OPEN_API_KEY")
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 if openai.api_key is None:
     st.error("OPEN_API_KEY environment variable is not set. Please set it before running the app.")
