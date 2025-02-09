@@ -24,7 +24,7 @@ else:
         #st.write("Reading files from the current directory...")
         for filename in os.listdir():
             if filename.endswith('.pdf'):
-                st.write(f"Found file: {filename}")
+                #st.write(f"Found file: {filename}")
                 with open(filename, 'rb') as file:
                     reader = PyPDF2.PdfReader(file)
                     pdf_text = '\n'.join([page.extract_text() for page in reader.pages])
