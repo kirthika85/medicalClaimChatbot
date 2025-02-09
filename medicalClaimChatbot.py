@@ -97,5 +97,5 @@ if st.button("Submit"):
         st.rerun()
 
 # Display chat messages from history (newest at the bottom, oldest at the top)
-for message in st.session_state.messages:
+for message in reversed(st.session_state.messages):
     st.chat_message(message["role"]).markdown(message["content"])
