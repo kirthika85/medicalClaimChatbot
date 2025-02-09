@@ -21,7 +21,7 @@ else:
     # Function to read files from the current directory
     def read_files():
         contents = []
-        st.write("Reading files from the current directory...")
+        #st.write("Reading files from the current directory...")
         for filename in os.listdir():
             if filename.endswith('.pdf'):
                 st.write(f"Found file: {filename}")
