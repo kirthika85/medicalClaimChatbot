@@ -79,9 +79,9 @@ if st.button("Submit"):
         file_contents = read_files()
         response = generate_response(user_input, file_contents)
 
-        # Add user input and bot response to the beginning of chat history
-        st.session_state.messages.insert(0, {"role": "assistant", "content": response})
-        st.session_state.messages.insert(0, {"role": "user", "content": user_input})
+        # Add user input and bot response to the end of chat history
+        st.session_state.messages.append({"role": "user", "content": user_input})
+        st.session_state.messages.append({"role": "assistant", "content": response})
 
         # Clear the input field by setting the session state value to an empty string
         st.session_state["user_input_value"] = ""
