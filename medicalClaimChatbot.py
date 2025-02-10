@@ -61,10 +61,6 @@ st.write("This chatbot answers claim-related questions")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Add welcome message only once at the start
-if len(st.session_state.messages) == 0:
-    st.session_state.messages.append({"role": "assistant", "content": "Hello! I am your medical claim assistant. How can I help you today?"})
-
 # Initialize the user input in session state to an empty string
 if "user_input_value" not in st.session_state:
     st.session_state["user_input_value"] = ""
@@ -92,14 +88,20 @@ if st.button("Submit"):
 # Display chat messages from history (newest at the top)
 st.write("Chat History:")
 welcome_message = None
-for message in reversed(st.session_state.messages):
+other_messages = []
+for message in st.session_state.messages:
     if message["role"] == "assistant" and message["content"].startswith("Hello!"):
         welcome_message = message
     else:
-        if message["role"] == "user":
-            st.write(f"**You:** {message['content']}")
-        else:
-            st.write(f"**Assistant:** {message['content']}")
+        other_messages.append(message)
 
+# Display other messages in reverse order
+for message in reversed(other_messages):
+    if message["role"] == "user":
+        st.write(f"**You:** {message['content']}")
+    else:
+        st.write(f"**Assistant:** {message['content']}")
+
+# Display welcome message at the bottom
 if welcome_message:
     st.write(f"**Assistant:** {welcome_message['content']}")
