@@ -91,8 +91,15 @@ if st.button("Submit"):
 
 # Display chat messages from history (newest at the top)
 st.write("Chat History:")
+welcome_message = None
 for message in reversed(st.session_state.messages):
-    if message["role"] == "user":
-        st.write(f"**You:** {message['content']}")
+    if message["role"] == "assistant" and message["content"].startswith("Hello!"):
+        welcome_message = message
     else:
-        st.write(f"**Assistant:** {message['content']}")
+        if message["role"] == "user":
+            st.write(f"**You:** {message['content']}")
+        else:
+            st.write(f"**Assistant:** {message['content']}")
+
+if welcome_message:
+    st.write(f"**Assistant:** {welcome_message['content']}")
