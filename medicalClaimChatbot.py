@@ -86,7 +86,7 @@ if st.button("Submit"):
         st.rerun()
 
 # Display chat messages from history (newest at the top)
-st.write("Chat History:")
+#st.write("Chat History:")
 for message in reversed(st.session_state.messages):
     if message["role"] == "user":
         st.write(f"**You:** {message['content']}")
