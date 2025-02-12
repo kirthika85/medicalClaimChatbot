@@ -54,8 +54,8 @@ def generate_response(user_input, file_contents):
         return f"Error generating response: {e}"
 
 # Streamlit app layout
-st.title("Claim-Related Chatbot")
-st.write("This chatbot answers claim-related questions")
+st.title("Payer Claim Assistant")
+st.write("")
 
 # Initialize session state for chat history
 if "messages" not in st.session_state:
@@ -91,4 +91,4 @@ for message in reversed(st.session_state.messages):
     if message["role"] == "user":
         st.write(f"**You:** {message['content']}")
     else:
-        st.write(f"**Assistant:** {message['content']}")
+        st.write(f"**Payer Agent:** {message['content']}")
