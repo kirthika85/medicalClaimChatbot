@@ -5,7 +5,7 @@ import openai
 import time
 
 # Set up OpenAI API using environment variable
-with st.spinner("🔄 Mool AI agent Authentication In progress..."):
+with st.spinner("🔄 Payer agent Authentication In progress..."):
     openai.api_key = os.environ.get("OPENAI_API_KEY")
     if not openai.api_key:
         st.error("❌ API_KEY not found in environment variables.")
